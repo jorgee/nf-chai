@@ -14,8 +14,6 @@
 */
 
 include { NF_CHAI                 } from './workflows/nf_chai'
-include { PIPELINE_INITIALISATION } from './subworkflows/local/utils_seqeralabs_nf_chai_pipeline'
-include { PIPELINE_COMPLETION     } from './subworkflows/local/utils_seqeralabs_nf_chai_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,17 +26,6 @@ workflow {
     main:
 
     //
-    // SUBWORKFLOW: Run initialisation tasks
-    //
-    PIPELINE_INITIALISATION (
-        params.version,
-        params.validate_params,
-        params.monochrome_logs,
-        args,
-        params.outdir
-    )
-
-    //
     // WORKFLOW: Run main workflow
     //
     NF_CHAI (
@@ -49,13 +36,6 @@ workflow {
         params.num_diffusion_timesteps,
         params.seed,
         params.use_esm_embeddings
-    )
-
-    //
-    // SUBWORKFLOW: Run completion tasks
-    //
-    PIPELINE_COMPLETION (
-        params.monochrome_logs
     )
 }
 
